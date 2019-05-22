@@ -19,7 +19,7 @@ An alternate portcheck 2 backend using json and no annoying things like graphql
             { "Number" : "1006" }
           ]
         },
-        { "Name" : "337"
+        { "Name" : "337",
           "Room" : [
             { "Number" : "301" },
             { "Number" : "309" },
@@ -55,19 +55,19 @@ this is the same.schema
 
 ### Notes:
 - Keys starting with a '~' are system information (currently only array lengths)
-- Accessing elements in an array is done either by the index (with `[n]`) where n is a number, ~~or
+- Accessing elements in an array is done either by the index (with `"*[n]"`) where n is a number, ~~or
 with a key value pair (`["Number" : "733"]`)~~ (may be implemented later if needed)
 
 ### Examples:
-    { "Building" : { [1] : { "Name" : {} } } }
+    { "*query" : { "Building" : { "*[1]" : { "Name" : {} } } } }
     ==> "PAN"
-    { "Building" : { [1] : { "Room" : {} } } }
+    { "*query" : { "Building" : { "*[1]" : { "Room" : {} } } } }
     ==> { "~arr" : { "~len" : 3 }
-    { "Building" : { [1] : { "Room" : { [0] : { "Number" : {} } } } } }
+    { "*query" : { "Building" : { "*[2]" : { "Room" : { "*[0]" : { "Number" : {} } } } } } }
     ==> 301
-    { "Building" : {} }
+    { "*query" : { "Building" : {} } }
     ==> { "~arr" : { "~len" : 3 } }
-    { "Building" : { [1] : {} } }
+    { "*query" : { "Building" : { "*[1]" : {} } } }
     ==> { "Name" : "PAN",
           "Room" : { "~arr" : { "~len" : 3 } }
         }
@@ -76,38 +76,38 @@ with a key value pair (`["Number" : "733"]`)~~ (may be implemented later if need
 
 ### Changing a value at the end of a path
 
-    { "Building" : { [1] : { "Name" : "YMC" } } }
+    { "*chg" : { "Building" : { "*[1]" : { "Name" : "YMC" } } } }
     ==> "YMC"
-    { "Building" : { [1] : { "Room" : { [0] : { "Number" : 302 } } } } }
+    { "*chg" : { "Building" : { "*[1]" : { "Room" : { "*[0]" : { "Number" : 302 } } } } } }
     ==> 302
 
 ### Deleting
 Can only delete elements from an array. A query wrapped in `{ "*del" : <query> }`
 
-    { "*del" : { "Building" : { [1] : {} } } }
-    ==> { "*del" : { "Building" : { [1] : {} } } }
-    { "*del" : { "Building" : { [0] : { "Room" : { [2] : {} } } } } }
-    ==> { "*del" : { "Building" : { [1] : {} } } }
+    { "*del" : { "Building" : { "*[1]" : {} } } }
+    ==> { "*del" : { "Building" : { "*[1]" : {} } } }
+    { "*del" : { "Building" : { "*[0]" : { "Room" : { "*[2]" : {} } } } } }
+    ==> { "*del" : { "Building" : { "*[1]" : {} } } }
 
 ### Adding
 Can only add elements to an array.
 
-    { "*add" : { "Building" : { [] : { "Name" : "PAN",
-                                       "Room" : [
-                                         { "Number" : "733" },
-                                         { "Number" : "831" },
-                                         { "Number" : "1006" }
-                                       ]
-                                     } } }
-    ==> { "*add" : { "Building" : { [] : { "Name" : "PAN",
-                                            "Room" : [
-                                              { "Number" : "733" },
-                                              { "Number" : "831" },
-                                              { "Number" : "1006" }
-                                            ]
-                                          } } }
-    { "*add" : {"Building" : { [0] : { "Room" : { [] : { "Number" : 109 } } } } } }
-    ==> { "*add" : {"Building" : { [0] : { "Room" : { [] : { "Number" : 109 } } } } } }
+    { "*add" : { "Building" : { "*[]" : { "Name" : "PAN",
+                                          "Room" : [
+                                            { "Number" : "733" },
+                                            { "Number" : "831" },
+                                            { "Number" : "1006" }
+                                          ]
+                                        } } }
+    ==> { "*add" : { "Building" : { "*[]" : { "Name" : "PAN",
+                                               "Room" : [
+                                                 { "Number" : "733" },
+                                                 { "Number" : "831" },
+                                                 { "Number" : "1006" }
+                                               ]
+                                             } } }
+    { "*add" : {"Building" : { "*[0]" : { "Room" : { [] : { "Number" : 109 } } } } } }
+    ==> { "*add" : {"Building" : { "*[0]" : { "Room" : { [] : { "Number" : 109 } } } } } }
 
 ## Errors
 If a command is issued incorrectly, a response will be returned with the following format
