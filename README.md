@@ -4,26 +4,26 @@ An alternate portcheck 2 backend using json and no annoying things like graphql
 # Spec
 ## Example Data Structure
 
-    { "Building" : [
-        { "Name" : "WIL",
-          "Room" : [
-            { "Number" : "103" },
-            { "Number" : "104" },
-            { "Number" : "105" }
+    {"Building": [
+        {"Name": "WIL",
+         "Room": [
+             {"Number": 103},
+             {"Number": 104},
+             {"Number": 105}
           ]
         },
-        { "Name" : "PAN",
-          "Room" : [
-            { "Number" : "733" },
-            { "Number" : "831" },
-            { "Number" : "1006" }
+        {"Name": "PAN",
+         "Room": [
+             {"Number": 733},
+             {"Number": 831},
+             {"Number": 1006}
           ]
         },
-        { "Name" : "337",
-          "Room" : [
-            { "Number" : "301" },
-            { "Number" : "309" },
-            { "Number" : "108" }
+        {"Name": 337,
+         "Room": [
+             {"Number": 301},
+             {"Number": 309},
+             {"Number": 108}
           ]
         }
       ]
@@ -59,18 +59,16 @@ this is the same.schema
 with a key value pair (`["Number" : "733"]`)~~ (may be implemented later if needed)
 
 ### Examples:
-    { "*query" : { "Building" : { "*[1]" : { "Name" : {} } } } }
+    { "*query" : { "Building": { "*[1]": { "Name" : {} } } } }
     ==> "PAN"
-    { "*query" : { "Building" : { "*[1]" : { "Room" : {} } } } }
-    ==> { "~arr" : { "~len" : 3 }
-    { "*query" : { "Building" : { "*[2]" : { "Room" : { "*[0]" : { "Number" : {} } } } } } }
+    { "*query" : { "Building": { "*[1]": { "Room": {} } } } }
+    ==> {"~arr": {"~len": 3}}
+    { "*query" : { "Building" : { "*[2]": { "Room": { "*[0]": { "Number": {} } } } } } }
     ==> 301
     { "*query" : { "Building" : {} } }
-    ==> { "~arr" : { "~len" : 3 } }
+    ==> {"~arr": {"~len": 3}}
     { "*query" : { "Building" : { "*[1]" : {} } } }
-    ==> { "Name" : "PAN",
-          "Room" : { "~arr" : { "~len" : 3 } }
-        }
+    ==> {"Name": "PAN", "Room": {"~arr": {"~len": 3}}}
 
 ## Mutation
 
