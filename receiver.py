@@ -3,6 +3,7 @@ import json
 
 # Set the 'database' to the intial schema
 # This will obviously be replaced by a more efficient system (maybe an actual database), but it gets the idea across.
+
 _db = {"Building": [
         {"Name": "WIL",
          "Room": [
