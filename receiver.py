@@ -1,7 +1,7 @@
 import re
 import json
 
-# Set the 'database' to the intial schema
+# Set the 'database' to the initial schema
 # This will obviously be replaced by a more efficient system (maybe an actual database), but it gets the idea across.
 
 _db = {"Building": [
@@ -73,7 +73,7 @@ def _query(cmd, db=dict(_db)):
     return _query(cmd, db)
 
 
-def _change(cmd):
+def _change(cmd, db=dict(_db)):
     pass
 
 
@@ -103,7 +103,6 @@ def _clean(msg):
         return n_dict
     else:
         return msg
-
 
 
 if __name__ == "__main__":

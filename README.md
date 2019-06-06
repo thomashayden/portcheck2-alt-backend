@@ -111,3 +111,53 @@ Can only add elements to an array.
 If a command is issued incorrectly, a response will be returned with the following format
 
     { "~err" : { "~msg" : <error message> } }
+
+# 'Database'
+Because I aim for absolute simplicity, I decided to write my own sorry excuse for a database. Because the data follows a
+JSON structure, the database is a series of folders and files which can be followed to get to a piece of data. The
+example data structure is shown below. It seems a little excessive, but I believe this should be easier to handle and
+certainly better than a single large file.
+
+To aid in an easier interface, the database object can be accessed as a dictionary/list with the square bracket syntax.
+This should aid in helping it appear as though you are accessing an object in memory.
+
+    Building
+    --> 0
+        --> Name
+            --> ~data
+        --> Room
+            --> 0
+                --> Number
+                    --> ~data
+            --> 1
+                --> Number
+                    --> ~data
+            --> 2
+                --> Number
+                    --> ~data
+    --> 1
+        --> Name
+            --> ~data
+        --> Room
+            --> 0
+                --> Number
+                    --> ~data
+            --> 1
+                --> Number
+                    --> ~data
+            --> 2
+                --> Number
+                    --> ~data
+    --> 2
+        --> Name
+            --> ~data
+        --> Room
+            --> 0
+                --> Number
+                    --> ~data
+            --> 1
+                --> Number
+                    --> ~data
+            --> 2
+                --> Number
+                    --> ~data

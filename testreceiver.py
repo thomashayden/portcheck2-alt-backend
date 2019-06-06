@@ -1,5 +1,38 @@
 import receiver
 
+import copy
+import pytest
+
+
+std_dict = {"Building": [
+        {"Name": "WIL",
+         "Room": [
+             {"Number": 103},
+             {"Number": 104},
+             {"Number": 105}
+          ]
+        },
+        {"Name": "PAN",
+         "Room": [
+             {"Number": 733},
+             {"Number": 831},
+             {"Number": 1006}
+          ]
+        },
+        {"Name": 337,
+         "Room": [
+             {"Number": 301},
+             {"Number": 309},
+             {"Number": 108}
+          ]
+        }
+      ]
+    }
+
+@pytest.fixture()
+def resource():
+    receiver._db = copy.copy(std_dict)
+    yield "resource"
 
 def test_query_01():
     cmd = '{ "*query" : { "Building": { "*[1]": { "Name" : {} } } } }'
@@ -29,4 +62,4 @@ def test_change_01():
     cmd = '{ "*query" : { "Building" : { "*[1]" : {} } } }'
     assert receiver.handle_cmd(cmd) == '{"Name": "YMC", "Room": {"~arr": {"~len": 3}}}'
     cmd = '{ "*chg" : { "Building" : { "*[1]" : { "Room" : { "*[0]" : { "Number" : 302 } } } } } }'
-    receiver.handle_cmd(cmd)
+    assert receiver.handle_cmd(cmd) == '302'
